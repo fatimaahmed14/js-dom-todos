@@ -1,14 +1,13 @@
 const uri = "http://localhost:3000/todos"
 const toDoList = document.querySelector('#todo-list')
 const addTask = document.querySelector("form input[type='submit']")
-const newTaskInput = document.querySelector('#title-input')
 
 const state = {
    thingsToDo : []
 
 }
 
-// this function renders all existing to do items from the data in the json file
+// This function renders all existing to do items from the data in the json file
 function renderToDoList (){
     toDoList.innerHTML = ""
 
@@ -17,12 +16,14 @@ function renderToDoList (){
     li.innerText = task.title 
     toDoList.appendChild(li)
 
+    // delete button created and placed with each list item 
     const deleteButton = document.createElement("button")
     deleteButton.innerText = "delete"
     li.appendChild(deleteButton)
 
     deleteButton.addEventListener("click", (event) => {
         event.preventDefault()
+        // The function that takes care of all deletions is called here, as a task should only be deleted when the delete button is clicked
         deleteTask(task)
     })
 
@@ -45,13 +46,11 @@ function loadToDoList() {
       });
   }
 
-  loadToDoList()
-
-// Once add is clicked, using the Post method a new task is added to the to do list
+// Once add is clicked, using the Post method, a new task is added to the to do list
 addTask.addEventListener("click",(event) => {
 
     const newTask = {
-        // unable to make this dynamic in this moment
+        // unable to make this dynamic at the moment
         title: "Get a new cat",
         completed: "false",
     }
@@ -79,6 +78,7 @@ addTask.addEventListener("click",(event) => {
 })
 
 
+// This function allows user to delete any task off of their existing list
 function deleteTask(task) {
     const url = `http://localhost:3000/todos/${task.id}`
 
@@ -100,8 +100,11 @@ function deleteTask(task) {
 
     })
     
+    // Here the old state is being over written with the new up to date data including all deletions made by user
     state.thingsToDo = updatedToDoList
     renderToDoList()
 
 })
 }
+
+loadToDoList()
