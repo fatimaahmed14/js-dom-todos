@@ -46,12 +46,18 @@ function loadToDoList() {
       });
   }
 
+  loadToDoList()
+
 // Once add is clicked, using the Post method, a new task is added to the to do list
 addTask.addEventListener("click",(event) => {
 
+    event.preventDefault()
+
+    // Selectin the title and its content allows the user to input any task and for it to render onto the page
+    const newTaskTitle = document.querySelector("form input[name='title']").value 
     const newTask = {
-        // unable to make this dynamic at the moment
-        title: "Get a new cat",
+
+        title: newTaskTitle,
         completed: "false",
     }
 
@@ -94,17 +100,18 @@ function deleteTask(task) {
         .then((response) => {
         return response.json()
     })
-        .then((data) => {
+        .then((newToDoList) => {
             const updatedToDoList = state.thingsToDo.filter((tasks) => {
                 return tasks.id !== task.id
 
     })
     
     // Here the old state is being over written with the new up to date data including all deletions made by user
+   
     state.thingsToDo = updatedToDoList
     renderToDoList()
+    
 
 })
 }
 
-loadToDoList()
